@@ -1,0 +1,4 @@
+{
+  "dbHost": "mongodb://Rain:eventtest@ds053176.mlab.com:53176/eventtest",
+  "secret": "mylovefortdd"
+}
