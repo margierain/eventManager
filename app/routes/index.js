@@ -27,4 +27,6 @@ module.exports = (app) => {
   require('./users')(app);
 
   require('./roles')(app);
+
+  require('./events')(app);
 };
