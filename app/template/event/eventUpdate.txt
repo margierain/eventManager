@@ -1,0 +1,17 @@
+Dear admin,
+  Welcome to EventTracker!
+  This is to info you on the updates made to an event created by
+  Name: {name}, Email: {email} and Phone number: {phoneNo}
+
+  Event type: {eventType}
+  Guest no: {guestNo}
+  Event data: {eventDate}
+  Budget Estimatimation: {budgetEstimate}
+  Sourced out services: location: {location}, Contact phone no: {contactNo}, Service rate: {serviceRate}
+  Services requested  : {description}
+
+  Sincerely,
+
+  The EventTrack Team
+
+  Note: replies to this email address are not monitored.`;

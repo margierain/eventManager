@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign, no-shadow */
 const utils = require('../utils');
 const models = require('../models');
+const sendEmail = require('./sendEmail').sendEmail;
+const path = require('path');
+const fs = require("fs");
 
+const User = models.User;
 const Event = models.Event;
 
 const runQuery = utils.runQuery;
@@ -101,10 +105,72 @@ function update(req, res) {
         if (err) {
           return resolveError(err, res);
         }
+
+        eventUpdateEmail(event);
+
         return res.status(200).send(event);
       });
     });
 }
+
+function eventUpdateEmail(event) {
+
+  function findFile(file) {
+    const filePath = path.resolve(__dirname, file);
+    let text = fs.readFileSync(filePath).toString('utf-8');
+    text.split(" ");
+
+    let replaceText = text;
+
+    event.ownServiceProvider.map(service => {
+      replaceText = replaceText
+        .replace('{location}', `${service.location}`)
+        .replace('{contactNo}', `${service.contactNo}`)
+        .replace('{serviceRate}', `${service.serviceRate}`)
+    });
+
+    event.needServiceProvide.map(offer => {
+      replaceText = replaceText
+        .replace('{description}', `${offer.description}`);
+    });
+
+
+    replaceText = replaceText
+      .replace('{name}', `${event.eventMaker.name}`)
+      .replace('{email}', `${event.eventMaker.email}`)
+      .replace('{phoneNo}', `${event.phoneNo}`)
+      .replace('{eventType}', `${event.eventType}`)
+      .replace('{guestNo}', `${event.guestNo}`)
+      .replace('{eventDate}', `${event.eventDate}`)
+      .replace('{budgetEstimate}', `${event.budgetEstimate}`);
+
+    return replaceText
+  };
+
+  const textFormat = findFile('../template/event/eventUpdate.txt');
+  const htmlFormat = findFile('../template/event/eventUpdate.html');
+
+  let adminEmails = [];
+
+  User
+    .find({}, '-__v')
+    .exec((err, users) => {
+      if (err) {
+        return resolveError(err, res);
+      }
+      users.map(user => {
+        if (user.role && user.role.title === 'admin') {
+          adminEmails.push(user.email);
+        }
+      });
+      if (adminEmails.length > 0) {
+        adminEmails.map(email => {
+          sendEmail(email, 'Event updates', textFormat, htmlFormat);
+        })
+      }
+    })
+
+};
 
 /**
  * Delete a single event.
