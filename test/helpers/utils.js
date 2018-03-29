@@ -89,5 +89,103 @@
       });
     },
 
+    /**
+     * Get the admin role.
+     */
+    getAdminRole: function () {
+      return new Promise(function (resolve, reject) {
+        Role.findOne({ title: 'admin' }, function (err, role) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(role);
+        });
+      });
+    },
+
+
+    /**
+     * Promote a user to 'admin' status.
+     */
+    makeAdmin: function (name, _log) {
+      const _this = this;
+      name = name || this.testUserDetails.name;
+      return new Promise(function (resolve, reject) {
+        _this.getAdminRole()
+          .then(function (role) {
+            User.findOneAndUpdate({ name: name }, {
+              $set: {
+                role: role._id
+              }
+            }, function (err, user) {
+              if (err) {
+                reject(err);
+                return;
+              }
+
+              resolve(user);
+            });
+          });
+      });
+    },
+
+    testEvent: require('./testEvent'),
+    testEvents: require('./testEvents'),
+    createEvent: function (token, data, _log) {
+      // If only _log was passed, make data null in order to use the default.
+      if (!_log && typeof data !== 'object') {
+        _log = data;
+        data = null;
+      }
+      data = data || this.testEvent;
+      return new Promise(function (resolve, reject) {
+        if (!token) {
+          const err = new Error('No access token provided');
+          reject(err);
+        } else {
+          return request
+            .post('/api/v.1/events')
+            .send(data)
+            .set('x-access-token', token)
+            .accept('application/json')
+            .end(function (err, res) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(res);
+              }
+            });
+        }
+      });
+    },
+
+    seedTestEvents: function (owner_id, _log) {
+
+      let _this = this;
+      // eslint-disable-next-line
+      return new Promise(function (resolve, reject) {
+        return User.findOne({ _id: owner_id }).exec(function (err, user) {
+          if (err) {
+            reject(err);
+          }
+          _this.testEvents.forEach(function (event) {
+            event.eventMaker = owner_id;
+            let data = Object.assign({}, event);
+
+            Event.create(data, function (err, event) {
+              if (err) reject(err);
+            });
+          });
+          resolve(true);
+        });
+      });
+    },
+
+    destroyTestEvents: function (_log) {
+      return Event.remove({}, function (err) { // eslint-disable-line
+      });
+    }
+
   }
 })();

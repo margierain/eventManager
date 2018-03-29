@@ -1,4 +1,5 @@
 {
   "dbHost": "mongodb://Rain:rainEvent@ds119489.mlab.com:19489/eventmanager",
+  "SENDGRID_API_KEY": "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",
   "secret": "iloveeventmanagement"
 }

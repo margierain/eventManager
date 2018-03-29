@@ -48,7 +48,6 @@ function create(req, res) {
     .findOne({ title: data.role })
     .exec((err, role) => {
       if (err) {
-        console.log('errs');
         return resolveError(err, res);
       }
 
