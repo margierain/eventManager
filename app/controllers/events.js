@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign, no-shadow */
 const utils = require('../utils');
 const models = require('../models');
-const sendEmail = require('./sendEmail').sendEmail;
+const sendEmail = require('../services').sendEmail;
 const path = require('path');
 const fs = require("fs");
 
