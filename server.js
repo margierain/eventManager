@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const config = require('config');
 const app = express();
+const router = express.Router();
 
 const dbConfig = config.get('dbHost');
 
@@ -12,7 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: 'application/json' }));
 
-require('./app/routes/')(app);
+app.use("/api/v.1", router);
+require('./app/routes/')(router);
 
 const port = process.env.PORT || 8080;
 
