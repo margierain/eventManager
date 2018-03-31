@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-const config = require('../../config/dev');
 const Schema = mongoose.Schema;
+require('dotenv').config();
 
 const userSchema = new Schema({
   name: String,
@@ -83,7 +83,7 @@ userSchema.methods.generateJwt = function () {
     _id: this._id,
     name: this.name,
     exp: parseInt(expiry.getTime() / 1000, 10)
-  }, config.secret);
+  }, process.env.secret);
 }
 
 

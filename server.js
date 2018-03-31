@@ -3,11 +3,10 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
-const config = require('config');
 const app = express();
 const router = express.Router();
 
-const dbConfig = config.get('dbHost');
+require('dotenv').config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,12 +17,12 @@ require('./app/routes/')(router);
 
 const port = process.env.PORT || 8080;
 
-mongoose.connect(dbConfig, (err) => {
+mongoose.connect(process.env.dbHost, (err) => {
   if (!err) console.log('connected to db');
 });
 
 
-app.set('superSecret', config.secret);
+app.set('superSecret', process.env.secret);
 
 app.use(morgan('dev'));
 
