@@ -6,7 +6,7 @@
   const expect = require('chai').expect;
   const testUtils = require('../helpers/utils');
 
-  describe.only('Event Test Suite', function () {
+  describe('Event Test Suite', function () {
     describe('Test event listing functionality', function () {
       let token;
       before(function (done) {
