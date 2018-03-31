@@ -1,11 +1,11 @@
 const rolesController = require('../controllers').rolesController;
 const Role = require('../models').Role;
 
-module.exports = (app) => {
+module.exports = (router) => {
   /**
    * List all roles in the system..
    */
-  app.get('/api/v.1/roles', (req, res) => {
+  router.get('/roles', (req, res) => {
     Role.all((err, roles) => {
       if (err) {
         return res.send(err);

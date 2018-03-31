@@ -1,27 +1,27 @@
 const usersController = require('../controllers').usersController;
 const customMiddleware = require('../middleware');
 
-module.exports = (app) => {
+module.exports = (router) => {
   /**
    * Get all users in the system. Admin access only.
    */
-  app.get('/api/v.1/users',
+  router.get('/users',
     customMiddleware.isAdminOrOwnProfile, usersController.list);
 
   /**
    * Get a logged in user's profile.
    */
-  app.get('/api/v.1/users/:nameOrId', usersController.retrieve);
+  router.get('/users/:nameOrId', usersController.retrieve);
 
   /**
    * Update a user's profile.
    */
-  app.put('/api/v.1/users/:nameOrId',
+  router.put('/users/:nameOrId',
     customMiddleware.isAdminOrOwnProfile, usersController.update);
 
   /**
    * Delete a user account.
    */
-  app.delete('/api/v.1/users/:nameOrId',
+  router.delete('/users/:nameOrId',
     customMiddleware.isAdminOrOwnProfile, usersController.deleteUser);
 };
