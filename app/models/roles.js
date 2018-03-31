@@ -14,7 +14,7 @@ const roleSchema = new Schema({
   }
 });
 
-roleSchema.pre('save', next => {
+roleSchema.pre('save', function (next) {
   const accessLevelMap = {
     admin: 3,
     service_provider: 2,
@@ -46,7 +46,7 @@ roleSchema.statics.initialize = function () {
   });
 };
 
-roleSchema.statics.all = (cb) => {
+roleSchema.statics.all = function (cb) {
   this.find({}, cb)
 };
 
