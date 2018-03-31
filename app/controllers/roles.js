@@ -1,12 +1,14 @@
 const Role = require('../models').Role;
+const resolveError = require('../utils').resolveError;
 
 function list(req, res) {
-  Role.all((err, roles) => {
-    if (err) {
-      return res.send(err);
-    }
-    return res.status(200).send(roles);
-  });
+  return Role
+    .all((err, roles) => {
+      if (err) {
+        return resolveError(err);
+      }
+      return res.status(200).send(roles);
+    });
 }
 
-module.exports = list;
+module.exports = { list };
