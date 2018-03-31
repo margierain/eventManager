@@ -91,17 +91,7 @@ function update(req, res) {
         });
       }
 
-      if (req.body.phoneNo) event.phoneNo = req.body.phoneNo;
-      if (req.body.eventType) event.eventType = req.body.eventType;
-      if (req.body.guestNo) event.guestNo = req.body.guestNo;
-      if (req.body.eventMaker) event.eventMaker = req.body.eventMaker;
-      if (req.body.eventDate) event.eventDate = req.body.eventDate;
-      if (req.body.budgetEstimate) event.budgetEstimate = req.body.budgetEstimate;
-      if (req.body.ownServiceProvider) event.ownServiceProvider = req.body.ownServiceProvider;
-      if (req.body.needServiceProvide) event.needServiceProvide = req.body.needServiceProvide;
-      if (req.body.eventType) event.eventType = req.body.eventType;
-
-      return event.save((err) => {
+      return Object.assign(event, req.body).save((err) => {
         if (err) {
           return resolveError(err, res);
         }
