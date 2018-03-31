@@ -1,6 +1,7 @@
 const Validator = require('validator');
 const models = require('../models');
 const utils = require('../utils');
+const generateJwt = require('../services').generateJwt;
 
 const User = models.User;
 const Role = models.Role;
@@ -38,7 +39,7 @@ function create(req, res) {
             name: user.name,
             email: user.email,
             role: user.role,
-            token: user.generateJwt()
+            token: generateJwt(user.id, user.name)
           });
         });
     });
@@ -210,7 +211,7 @@ function login(req, res) {
 
       return res.status(200).send({
         message: 'Authentication successful',
-        token: user.generateJwt()
+        token: generateJwt(user.id, user.name)
       });
     });
 };
