@@ -18,6 +18,7 @@
      */
     testUserDetails: require('./testUser.json'),
     testUsers: require('./testUsers.json'),
+    testEventDetails: require('./testEvent'),
 
     /**
      * Create a user using a HTTP POST request.
