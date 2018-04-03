@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../config/dev');
 const User = require('../models').User;
+
+require('dotenv').config();
 
 /**
  * Validate POST request data.
@@ -34,7 +35,7 @@ const authenticate = (req, res, next) => {
     });
   }
 
-  return jwt.verify(token, config.secret, function (err, decoded) {
+  return jwt.verify(token, process.env.secret, function (err, decoded) {
     if (err) {
       return res.status(401).send({
         message: 'Failed to authenticate token.'

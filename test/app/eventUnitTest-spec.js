@@ -9,7 +9,7 @@ require('sinon-mongoose');
 //Importing our event model for our unit testing.
 const Event = require('../../app/models/events');
 
-describe.only("Get all events", function () {
+describe("Get all events", function () {
   // Test will pass if we get all events
   it("should return all events", function (done) {
     const EventMock = sinon.mock(Event);
