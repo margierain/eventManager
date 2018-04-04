@@ -1,4 +1,3 @@
-const Validator = require('validator');
 const models = require('../models');
 const utils = require('../utils');
 
